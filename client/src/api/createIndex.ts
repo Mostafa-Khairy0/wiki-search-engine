@@ -1,5 +1,5 @@
 import axios from "axios";
-axios.defaults.baseURL = `http://localhost:8000`;
+axios.defaults.baseURL = `https://wiki-search-engine.onrender.com`;
 
 export default function createIndex(type: string, preprocess: string[]) {
   return axios.post(`/createIndex/${type}`, { preprocess }).catch((err) => {
