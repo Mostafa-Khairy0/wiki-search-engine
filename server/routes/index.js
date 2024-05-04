@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const indexTypes = [
-  "Term-document index",
-  "Inverted index",
-  "Positional index",
-  "Bi-word index",
-];
+const TermDocumentIndex = require("../utils/TermDocumentIndex");
+const BiWordIndex = require("../utils/BiWordIndex");
+const InvertedIndex = require("../utils/InvertedIndex");
+
+const indexTypes = ["Term-document index", "Inverted index", "Bi-word index"];
 const availablePreprocess = [
   "Tokenization",
   "Stop words",
@@ -14,29 +13,47 @@ const availablePreprocess = [
   "Normalization",
 ];
 
-router.post("/createIndex/:type", function (req, res) {
+router.post("/createIndex/:type", async function (req, res) {
   try {
     let { type } = req.params;
     type = decodeURI(type);
-    if (!indexTypes.includes(type)) throw new Error(`${type} is not supported`);
     const { preprocess } = req.body;
     preprocess.map((preproces) => {
       if (!availablePreprocess.includes(preproces))
         throw new Error(`preprocess ${preproces} is not supported`);
     });
-    setTimeout(() => {
-      res.json({ message: `The ${type} was created successfully` });
-    }, 10000);
+    switch (type) {
+      case "Term-document index":
+        const termDocumentIndex = new TermDocumentIndex(availablePreprocess);
+        await termDocumentIndex.createIndex();
+        await termDocumentIndex.save("TermDocument");
+        break;
+      case "Inverted index":
+        const invertedIndex = new InvertedIndex(availablePreprocess);
+        await invertedIndex.createIndex();
+        await invertedIndex.save("Inverted");
+        break;
+      case "Bi-word index":
+        const biWordIndex = new BiWordIndex(availablePreprocess);
+        await biWordIndex.createIndex();
+        await biWordIndex.save("BiWord");
+        break;
+      default:
+        throw new Error(`${type} is not supported`);
+    }
+    return res.json({ message: `The ${type} was created successfully` });
   } catch (error) {
     console.error(error);
     return res.status(400).send(error.message);
   }
 });
-router.get("/search/:text", function (req, res) {
+router.get("/search/:type/:text", function (req, res) {
   try {
-    let { text } = req.params;
+    let { text, type } = req.params;
     text = decodeURI(text);
     if (text.length == 0) return res.json({ suggestions: [] });
+    type = decodeURI(type);
+    if (!indexTypes.includes(type)) throw new Error(`${type} is not supported`);
 
     setTimeout(() => {
       res.json({

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "test": "node --max-old-space-size=16384 utils\\BiWordIndex.js",
     "start": "node ./bin/www"
   },
   "dependencies": {
@@ -10,6 +11,8 @@
     "debug": "~2.6.9",
     "dotenv": "^16.4.5",
     "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "lemmatizer": "^0.0.1",
+    "morgan": "~1.9.1",
+    "natural": "^7.0.5"
   }
 }
