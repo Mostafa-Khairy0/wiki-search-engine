@@ -21,6 +21,7 @@ const Index = () => {
       await createIndex(indexType, preprocess);
       setIsLoad(false);
       toast.success("The index created successfully");
+      router.push(`/search/${encodeURI(indexType)}`);
     } catch (error) {
       console.error(error);
       toast.error(`${error}`);
@@ -35,13 +36,8 @@ const Index = () => {
           <IndexType indexType={indexType} setIndexType={setIndexType} />
           <Preprocess preprocess={preprocess} setPreprocess={setPreprocess} />
         </div>
-        <div className={style.row}>
-          <div className={style.btn} onClick={() => handleSubmit()}>
-            Create New Index
-          </div>
-          <div className={style.btn} onClick={() => router.push(`/search`)}>
-            Search
-          </div>
+        <div className={style.btn} onClick={() => handleSubmit()}>
+          Create New Index
         </div>
       </div>
       {isLoad && <Loader />}

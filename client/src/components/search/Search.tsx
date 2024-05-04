@@ -4,7 +4,7 @@ import Image from "next/image";
 import Input from "./Input";
 import { useRouter } from "next/navigation";
 
-const Search = () => {
+const Search = ({ indexType }: { indexType: string }) => {
   const router = useRouter();
   return (
     <div className={styles.page}>
@@ -20,11 +20,10 @@ const Search = () => {
         className={styles.image}
         priority={true}
       />
-      <div className={styles.row}>
-        <Input />
-        <div className={styles.btn} onClick={() => router.push(`/new_index`)}>
-          New Index
-        </div>
+      <Input indexType={decodeURI(indexType)} />
+      <div className={styles.backBtn} onClick={() => router.push(`/new_index`)}>
+        <i className="fa-solid fa-chevron-left"></i>
+        <p>Create New Index</p>
       </div>
     </div>
   );

@@ -9,14 +9,16 @@ interface Result {
   link: string;
 }
 
-const Input = () => {
+const Input = ({ indexType }: { indexType: string }) => {
   const [results, setResults] = useState<Result[]>([]);
   const [text, setText] = useState<string>("");
 
+  console.log({ indexType });
   useEffect(() => {
-    if (text.length) search(text).then((results) => setResults(results));
+    if (text.length)
+      search(text, indexType).then((results) => setResults(results));
     else setResults([]);
-  }, [text]);
+  }, [text, indexType]);
   return (
     <div className={styles.inputBox}>
       <input
