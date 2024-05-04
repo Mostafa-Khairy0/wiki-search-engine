@@ -3,24 +3,27 @@ import styles from "./style.module.css";
 import Image from "next/image";
 import Input from "./Input";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import SearchType from "./SearchType";
 
 const Search = ({ indexType }: { indexType: string }) => {
   const router = useRouter();
+  const [searchType, setSearchType] = useState<string>("Approximate");
   return (
     <div className={styles.page}>
-      <div className={styles.title}>
-        <div className={styles.bold}>Wikipedia</div>
-        <div className={styles.light}>The Free Encyclopedia</div>
-      </div>
       <Image
         src="/wiki.png"
-        width={300}
-        height={300}
+        width={200}
+        height={200}
         alt="Wikipedia"
         className={styles.image}
         priority={true}
       />
-      <Input indexType={decodeURI(indexType)} />
+      <SearchType searchType={searchType} setSearchType={setSearchType} />
+      <Input
+        searchType={decodeURI(searchType)}
+        indexType={decodeURI(indexType)}
+      />
       <div className={styles.backBtn} onClick={() => router.push(`/new_index`)}>
         <i className="fa-solid fa-chevron-left"></i>
         <p>Create New Index</p>

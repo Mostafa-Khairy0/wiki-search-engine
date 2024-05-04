@@ -10,12 +10,7 @@ const IndexType = ({
   indexType: string;
   setIndexType: Dispatch<SetStateAction<string>>;
 }) => {
-  const indexTypes = [
-    "Term-document index",
-    "Inverted index",
-    "Positional index",
-    "Bi-word index",
-  ];
+  const indexTypes = ["Term-document index", "Inverted index", "Bi-word index"];
   return (
     <div className={style.index}>
       {indexTypes.map((value) => (

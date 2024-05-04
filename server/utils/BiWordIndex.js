@@ -5,10 +5,12 @@ class BiWordIndex extends BuildIndex {
     super(preprocess);
   }
   addToIndex(text, filePath, title) {
-    const splited = text.split(" ");
+    const splited = text
+      .split(" ")
+      .filter((text) => text.length > 4 && isNaN(+text));
     for (const i in splited) {
       this.pushToIndex(
-        `${splited[i]}${splited[i + 1] ? ` ${splited[i + 1]}` : ""}`,
+        `${splited[i]} ${splited[i + 1] ?? splited[i + 2] ?? ""}`,
         {
           filePath,
           title,

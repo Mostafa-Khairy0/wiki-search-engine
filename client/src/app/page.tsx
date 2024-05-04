@@ -2,7 +2,7 @@
 import { redirect } from "next/navigation";
 
 function Page() {
-  redirect("/search");
+  redirect("/new_index");
 }
 
 export default Page;
