@@ -22,7 +22,7 @@ class BuildIndex {
           const filePath = path.join(this.folderPath, file);
           const text = await readFileAsync(filePath, "utf-8");
           const processedText = applyPreprocess(
-            text.slice(0, 50000),
+            text.slice(0, 1000),
             this.preprocess
           );
           (async () =>
