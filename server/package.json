@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "node --max-old-space-size=16384 utils\\Search.js",
-    "start": "node ./bin/www"
+    "start": "node --max-old-space-size=16384 ./bin/www"
   },
   "dependencies": {
     "@basd/search": "^0.0.5",
