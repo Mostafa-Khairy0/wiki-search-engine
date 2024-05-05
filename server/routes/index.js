@@ -3,6 +3,7 @@ const router = express.Router();
 const TermDocumentIndex = require("../utils/TermDocumentIndex");
 const BiWordIndex = require("../utils/BiWordIndex");
 const InvertedIndex = require("../utils/InvertedIndex");
+const Search = require("../utils/Search");
 
 const indexTypes = ["Term-document index", "Inverted index", "Bi-word index"];
 const availablePreprocess = [
@@ -12,6 +13,7 @@ const availablePreprocess = [
   "Stemming",
   "Normalization",
 ];
+const searchTypes = ["wildCard", "phrase", "approximate", "boolean"];
 
 router.post("/createIndex/:type", async function (req, res) {
   try {
@@ -47,28 +49,27 @@ router.post("/createIndex/:type", async function (req, res) {
     return res.status(400).send(error.message);
   }
 });
-router.get("/search/:type/:text", function (req, res) {
+router.get("/search/:searchType/:type/:text", async function (req, res) {
   try {
-    let { text, type } = req.params;
+    let { text, type, searchType } = req.params;
     text = decodeURI(text);
     if (text.length == 0) return res.json({ suggestions: [] });
     type = decodeURI(type);
     if (!indexTypes.includes(type)) throw new Error(`${type} is not supported`);
-
-    setTimeout(() => {
-      res.json({
-        suggestions: [
-          {
-            name: "April",
-            link: `${process.env.SERVER_URL}/dataset/wiki_00.txt`,
-          },
-          {
-            name: "People's Republic of China",
-            link: `${process.env.SERVER_URL}/dataset/wiki_01.txt`,
-          },
-        ],
-      });
-    }, 100);
+    let search;
+    switch (type) {
+      case "Term-document index":
+        search = new Search("TermDocument");
+        return res.json({ suggestions: await search[searchType](text) });
+      case "Inverted index":
+        search = new Search("Inverted");
+        await search.setKeys();
+        return res.json({ suggestions: await search[searchType](text) });
+      case "Bi-word index":
+        search = new Search("BiWord");
+        await search.setKeys();
+        return res.json({ suggestions: await search[searchType](text) });
+    }
   } catch (error) {
     console.error(error);
     return res.status(400).send(error.message);

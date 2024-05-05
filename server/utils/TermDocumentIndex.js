@@ -35,7 +35,7 @@ const availablePreprocess = [
 const indexBuilder = new TermDocumentIndex(availablePreprocess);
 indexBuilder
   .createIndex()
-  .then(() => indexBuilder.save("TermDocument"))
+  .then(async () => await indexBuilder.save("TermDocument"))
   .catch((error) => {
     console.error("Error:", error);
   });

@@ -8,14 +8,13 @@ class BiWordIndex extends BuildIndex {
     const splited = text
       .split(" ")
       .filter((text) => text.length > 4 && isNaN(+text));
+    console.log({ splited });
     for (const i in splited) {
-      this.pushToIndex(
-        `${splited[i]} ${splited[i + 1] ?? splited[i + 2] ?? ""}`,
-        {
-          filePath,
-          title,
-        }
-      );
+      if (!splited[i + 1]) continue;
+      this.pushToIndex(`${splited[i]} ${splited[i + 1]}`, {
+        filePath,
+        title,
+      });
     }
   }
   pushToIndex(word, data) {
@@ -37,7 +36,7 @@ const availablePreprocess = [
 const indexBuilder = new BiWordIndex(availablePreprocess);
 indexBuilder
   .createIndex()
-  .then(() => indexBuilder.save("BiWord"))
+  .then(async () => await indexBuilder.save("BiWord"))
   .catch((error) => {
     console.error("Error:", error);
   });

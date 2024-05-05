@@ -32,7 +32,7 @@ const availablePreprocess = [
 const indexBuilder = new InvertedIndex(availablePreprocess);
 indexBuilder
   .createIndex()
-  .then(() => indexBuilder.save("Inverted"))
+  .then(async () => await indexBuilder.save("Inverted"))
   .catch((error) => {
     console.error("Error:", error);
   });

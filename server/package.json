@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "node --max-old-space-size=16384 utils\\BiWordIndex.js",
+    "test": "node --max-old-space-size=16384 utils\\Search.js",
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@basd/search": "^0.0.5",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^16.4.5",
