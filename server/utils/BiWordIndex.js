@@ -8,7 +8,6 @@ class BiWordIndex extends BuildIndex {
     const splited = text
       .split(" ")
       .filter((text) => text.length > 4 && isNaN(+text));
-    console.log({ splited });
     for (const i in splited) {
       if (!splited[i + 1]) continue;
       this.pushToIndex(`${splited[i]} ${splited[i + 1]}`, {

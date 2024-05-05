@@ -18,8 +18,6 @@ const Input = ({
 }) => {
   const [results, setResults] = useState<Result[]>([]);
   const [text, setText] = useState<string>("");
-
-  console.log({ indexType });
   useEffect(() => {
     if (text.length)
       search(text, indexType, searchType).then((results) =>
