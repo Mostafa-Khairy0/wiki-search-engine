@@ -1,12 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.css";
-import Link from "next/link";
 import search from "@/api/search";
 
 interface Result {
-  name: string;
-  link: string;
+  title: string;
+  filePath: string;
 }
 
 const Input = ({
@@ -36,14 +35,18 @@ const Input = ({
       <i className="fa-solid fa-magnifying-glass"></i>
       {results.length > 0 && (
         <div className={styles.results}>
-          {results.map(({ name, link }, index) => (
+          {results.map(({ title, filePath }, index) => (
             <div className={styles.result} key={index}>
-              <div className={styles.name}>{`${name.slice(0, 25)}${
-                name.length > 25 ? "..." : ""
+              <div className={styles.title}>{`${title.slice(0, 25)}${
+                title.length > 25 ? "..." : ""
               }`}</div>
-              <Link href={link} className={styles.link}>
+              <a
+                target="_blank"
+                href={`${process.env.NEXT_PUBLIC_SERVER_URL}${filePath}`}
+                className={styles.filePath}
+              >
                 <i className="fa-solid fa-arrow-right"></i>
-              </Link>
+              </a>
             </div>
           ))}
         </div>

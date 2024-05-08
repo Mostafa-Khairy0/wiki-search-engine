@@ -8,7 +8,7 @@ import SearchType from "./SearchType";
 
 const Search = ({ indexType }: { indexType: string }) => {
   const router = useRouter();
-  const [searchType, setSearchType] = useState<string>("Approximate");
+  const [searchType, setSearchType] = useState<string>("approximate");
   return (
     <div className={styles.page}>
       <Image

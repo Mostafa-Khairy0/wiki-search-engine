@@ -28,7 +28,7 @@ class BuildIndex {
           (async () =>
             this.addToIndex(
               processedText,
-              filePath,
+              filePath.split("public").at(-1),
               text.split("\n")[0]
             ))().then(() => console.log(`done ${text.split("\n")[0]}`));
         }

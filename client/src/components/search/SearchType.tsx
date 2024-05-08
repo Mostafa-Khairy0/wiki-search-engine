@@ -2,7 +2,12 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./style.module.css";
 
-const vaildSearchTypes = ["Wild card", "Phrase", "Approximate", "Boolean"];
+const vaildSearchTypes = [
+  { name: "Wild card", value: "wildCard" },
+  { name: "Phrase", value: "phrase" },
+  { name: "Approximate", value: "approximate" },
+  { name: "Boolean", value: "boolean" },
+];
 
 const SearchType = ({
   setSearchType,
@@ -18,12 +23,14 @@ const SearchType = ({
         {vaildSearchTypes.map((type, index) => (
           <div
             className={
-              searchType == type ? styles.activeSearchType : styles.searchType
+              searchType == type.value
+                ? styles.activeSearchType
+                : styles.searchType
             }
             key={index}
-            onClick={() => setSearchType(type)}
+            onClick={() => setSearchType(type.value)}
           >
-            {type}
+            {type.name}
           </div>
         ))}
       </div>
